@@ -13,7 +13,7 @@ local function open_window()
 	local border_buf = vim.api.nvim_create_buf(false, true)
 
 	vim.api.nvim_buf_set_option(buf, "bufhidden", "wipe")
-	vim.api.nvim_buf_set_option(buf, "filetype", "whid")
+	vim.api.nvim_buf_set_option(buf, "filetype", "searchOrg")
 
 	local width = vim.api.nvim_get_option("columns")
 	local height = vim.api.nvim_get_option("lines")
@@ -115,7 +115,7 @@ local function set_mappings()
 	}
 
 	for k, v in pairs(mappings) do
-		api.nvim_buf_set_keymap(buf, "n", k, ':lua require"whid".' .. v .. "<cr>", {
+		api.nvim_buf_set_keymap(buf, "n", k, ':lua require"so".' .. v .. "<cr>", {
 			nowait = true,
 			noremap = true,
 			silent = true,
@@ -150,7 +150,7 @@ local function set_mappings()
 	end
 end
 
-local function whid()
+local function soStart()
 	position = 0
 	open_window()
 	set_mappings()
@@ -159,7 +159,7 @@ local function whid()
 end
 
 return {
-	whid = whid,
+	searchOrg = soStart,
 	update_view = update_view,
 	open_file = open_file,
 	move_cursor = move_cursor,
