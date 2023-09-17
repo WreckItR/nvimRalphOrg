@@ -47,27 +47,28 @@ local function open_window()
 		table.insert(border_lines, middle_line)
 	end
 	table.insert(border_lines, "╚" .. string.rep("═", win_width) .. "╝")
-	vim.api.nvim_buf_set_lines(border_buf, 0, -1, false, border_lines)
+	api.nvim_buf_set_lines(border_buf, 0, -1, false, border_lines)
 
-	local border_win = vim.api.nvim_open_win(border_buf, true, border_opts)
+	local border_win = api.nvim_open_win(border_buf, true, border_opts)
 	win = api.nvim_open_win(buf, true, opts)
 	api.nvim_command('au BufWipeout <buffer> exe "silent bwipeout! "' .. border_buf)
 
-	vim.api.nvim_win_set_option(win, "cursorline", true)
+	api.nvim_win_set_option(win, "cursorline", true)
 
 	api.nvim_buf_set_lines(buf, 0, -1, false, { center("What have i done?"), "", "" })
 	api.nvim_buf_add_highlight(buf, -1, "WhidHeader", 0, 0, -1)
 end
 
 local function update_view(direction)
-	vim.api.nvim_buf_set_option(buf, "modifiable", true)
+	api.nvim_buf_set_option(buf, "modifiable", true)
 	position = position + direction
 	if position < 0 then
 		position = 0
 	end
 
-	local result = vim.api.nvim_call_function("systemlist", {
-		"git diff-tree --no-commit-id --name-only -r HEAD~" .. position,
+	local result = api.nvim_call_function("systemlist", {
+		"ls ~/Dropbox/Ralph/Organisation/",
+		-- "git diff-tree --no-commit-id --name-only -r HEAD~" .. position,
 	})
 
 	if #result == 0 then
@@ -88,8 +89,10 @@ local function close_window()
 	api.nvim_win_close(win, true)
 end
 
-local function open_file()
-	local str = api.nvim_get_current_line()
+local function open_file(str)
+	if str == nil or str == "" then
+		str = api.nvim_get_current_line()
+	end
 	print(str)
 	close_window()
 	api.nvim_command("edit " .. str)
