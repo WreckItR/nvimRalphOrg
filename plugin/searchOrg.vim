@@ -4,7 +4,7 @@ let s:save_cpo = &cpo " save user coptions
 set cpo&vim " reset them to defaults
 
 " command to run our plugin
-command! so lua require'searchOrg'.whid()
+command! so lua require'searchOrg'.soStart()
 
 let &cpo = s:save_cpo " and restore after
 unlet s:save_cpo
